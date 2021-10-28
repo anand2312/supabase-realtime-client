@@ -6,7 +6,13 @@ from typing import Any
 @dataclass
 class Message:
     """
-    Dataclass abstraction for message
+    Dataclass abstraction for message.
+
+    Attributes:
+        event: str
+        payload: dict
+        ref: Any
+        topic: str
     """
 
     event: str

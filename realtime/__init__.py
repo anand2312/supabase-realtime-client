@@ -1,7 +1,3 @@
-__version__ = "0.1.3"
+from realtime.connection import Socket as Socket
 
-from realtime.channel import CallbackListener, Channel
-from realtime.connection import Socket
-from realtime.exceptions import NotConnectedError
-from realtime.message import *
-from realtime.transformers import *
+__version__ = "0.0.1"

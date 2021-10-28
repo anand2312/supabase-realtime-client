@@ -49,10 +49,41 @@ class Socket:
         self.ws_connection: websockets.client.WebSocketClientProtocol  # type: ignore
         self.kept_alive = False
 
+    async def connect(self) -> None:
+        """
+        Connect to the realtime server.
+
+        Raises:
+            [ConnectionFailedError][realtime.exceptions.ConnectionFailedError]
+        """
+        ws_connection = await websockets.connect(self.url)  # type: ignore
+
+        if ws_connection.open:
+            logging.info("Connection was successful")
+            self.ws_connection = ws_connection
+            self.connected = True
+
+        else:
+            raise ConnectionFailedError("Connection Failed")
+
+    @ensure_connection
+    def set_channel(self, topic: str) -> Channel:
+        """
+        Args:
+            topic: Initializes a channel and creates a two-way association with the socket
+        Returns:
+            [Channel][realtime.channel.Channel]
+        """
+
+        chan = Channel(self, topic, self.params)
+        self.channels[topic].append(chan)
+
+        return chan
+
     @ensure_connection
     async def listen(self) -> None:
         """
-        An infinite loop that keeps listening..
+        An infinite loop that keeps listening. This method should be called last.
         """
         while True:
             try:
@@ -67,20 +98,6 @@ class Socket:
             except websockets.exceptions.ConnectionClosed:  # type: ignore
                 logging.exception("Connection closed")
                 break
-
-    async def connect(self) -> None:
-        """
-        Connect to the realtime server.
-        """
-        ws_connection = await websockets.connect(self.url)  # type: ignore
-
-        if ws_connection.open:
-            logging.info("Connection was successful")
-            self.ws_connection = ws_connection
-            self.connected = True
-
-        else:
-            raise ConnectionFailedError("Connection Failed")
 
     async def _keep_alive(self) -> None:
         """
@@ -100,20 +117,6 @@ class Socket:
             except websockets.exceptions.ConnectionClosed:  # type: ignore
                 logging.exception("Connection with server closed")
                 break
-
-    @ensure_connection
-    def set_channel(self, topic: str) -> Channel:
-        """
-        Args:
-            topic: Initializes a channel and creates a two-way association with the socket
-        Returns:
-            [Channel][realtime.channel.Channel]
-        """
-
-        chan = Channel(self, topic, self.params)
-        self.channels[topic].append(chan)
-
-        return chan
 
     def summary(self) -> dict[str, list[Channel]]:
         """
