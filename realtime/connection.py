@@ -7,11 +7,13 @@ from typing import Any, Callable
 
 import websockets
 
-from realtime_py.channel import Channel
-from realtime_py.exceptions import NotConnectedError
-from realtime_py.message import HEARTBEAT_PAYLOAD, PHOENIX_CHANNEL, ChannelEvents, Message
+from realtime.channel import Channel
+from realtime.exceptions import NotConnectedError
+from realtime.message import HEARTBEAT_PAYLOAD, PHOENIX_CHANNEL, ChannelEvents, Message
 
-logging.basicConfig(format="%(asctime)s:%(levelname)s - %(message)s", level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s:%(levelname)s - %(message)s", level=logging.INFO
+)
 
 
 def ensure_connection(func: Callable):
@@ -23,6 +25,7 @@ def ensure_connection(func: Callable):
         return func(*args, **kwargs)
 
     return wrapper
+
 
 class Socket:
     def __init__(self, url: str, params: dict = {}, hb_interval: int = 5) -> None:

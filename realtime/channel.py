@@ -3,13 +3,13 @@ from __future__ import annotations
 import asyncio
 import json
 from collections import namedtuple
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 if TYPE_CHECKING:
-    from realtime_py.connection import Socket
+    from realtime.connection import Socket
 
 """
-Callback Listener is a tuple with `event` and `callback` 
+Callback Listener is a tuple with `event` and `callback`
 """
 CallbackListener = namedtuple("CallbackListener", "event callback")
 
@@ -74,4 +74,6 @@ class Channel:
         :param event: Stop responding to a certain event
         :return: None
         """
-        self.listeners = [callback for callback in self.listeners if callback.event != event]
+        self.listeners = [
+            callback for callback in self.listeners if callback.event != event
+        ]
