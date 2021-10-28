@@ -1,10 +1,4 @@
-# supabase-realtime-client
-
-Python Client Library to interface with the Phoenix Realtime Server
-This is a fork of the [supabase community realtime client library](https://github.com/supabase-community/realtime-py).
-I am maintaining this fork, to use it under the hood in another project.
-
-## Quick Start
+# Quick Start
 
 ```python
 import asyncio
@@ -31,10 +25,10 @@ async def main() -> None:
     channel_1.on("UPDATE", callback1)
     channel_2.on("*", callback2)
 
-    s.listen()  # infinite loop
+    await s.listen()  # infinite loop
 ```
 
-## Sample usage with Supabase
+# Sample usage with Supabase
 
 Here's how you could connect to your realtime endpoint using Supabase endpoint. Please replace `SUPABASE_ID` and `API_KEY` with your own `SUPABASE_ID` and `API_KEY`. The variables shown below are fake and they will not work if you try to run the snippet.
 
@@ -58,7 +52,7 @@ async def main() -> None:
     await channel_1.join()
     channel_1.on("UPDATE", callback1)
 
-    s.listen()
+    await s.listen()
 ```
 
 Then, go to the Supabase interface and toggle a row in a table. You should see a corresponding payload show up in your console/terminal.

@@ -1,9 +1,9 @@
 """
-Converts the change Payload into native Python types.
+Converts the change Payload into native Python types.  # TODO: look into doing this better
 """
 import json
-from dateutil.parser import parse
 
+from dateutil.parser import parse
 
 abstime = "abstime"
 _bool = "bool"  # bool is a keyword in python
@@ -43,8 +43,9 @@ to its mapped type.
 
 def convert_change_data(columns, records, options={}):
     result = {}
-    skip_types = options.get("skip_types") if options.get(
-        "skip_types") == "undefined" else []
+    skip_types = (
+        options.get("skip_types") if options.get("skip_types") == "undefined" else []
+    )
     for key in records.keys():
         result[key] = convert_column(key, columns, records, skip_types)
     return result
@@ -125,8 +126,7 @@ def convert_cell(_type: str, string_value: str):
             return noop(string_value)
 
     except Exception as e:
-        print(
-            f"Could not convert cell of type {_type} and value {string_value}")
+        print(f"Could not convert cell of type {_type} and value {string_value}")
         print(f"This is the error {e}")
         return string_value
 
@@ -181,12 +181,11 @@ Converts a Postgres array into a native python list.
 
 def to_array(string_value: str, type: str):
     # this takes off the '{' & '}'
-    string_enriched = string_value[1: len(string_value) - 1]
+    string_enriched = string_value[1 : len(string_value) - 1]
 
     # Converts the string into an array
     # if string is empty (meaning the array was empty), an empty array will be immediately returned
-    string_array = string_enriched.split(
-        ",") if len(string_enriched) > 0 else []
+    string_array = string_enriched.split(",") if len(string_enriched) > 0 else []
     array = list(map(lambda string: convert_cell(type, string), string_array))
     return array
 

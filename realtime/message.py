@@ -6,7 +6,13 @@ from typing import Any
 @dataclass
 class Message:
     """
-    Dataclass abstraction for message
+    Dataclass abstraction for message.
+
+    Attributes:
+        event: str
+        payload: dict
+        ref: Any
+        topic: str
     """
 
     event: str
@@ -15,7 +21,9 @@ class Message:
     topic: str
 
     def __hash__(self):
-        return hash((self.event, tuple(list(self.payload.values())), self.ref, self.topic))
+        return hash(
+            (self.event, tuple(list(self.payload.values())), self.ref, self.topic)
+        )
 
 
 class ChannelEvents(str, Enum):

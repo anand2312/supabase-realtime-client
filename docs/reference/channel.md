@@ -1,0 +1,3 @@
+# Channel
+
+::: realtime.channel.Channel
