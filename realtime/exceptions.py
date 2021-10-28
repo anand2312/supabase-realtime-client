@@ -1,4 +1,10 @@
-class NotConnectedError(Exception):
+class RealtimeError(Exception):
+    """
+    Base realtime exception.
+    """
+
+
+class NotConnectedError(RealtimeError):
     """
     Raised when operations requiring a connection are executed when socket is not connected
     """
@@ -10,7 +16,7 @@ class NotConnectedError(Exception):
         return f"A WS connection has not been established. Ensure you call Socket.connect() before calling Socket.{self.offending_func_name}()"
 
 
-class ConnectionFailedError(Exception):
+class ConnectionFailedError(RealtimeError):
     """
     Raised when connecting to the Phoenix server fails.
     """

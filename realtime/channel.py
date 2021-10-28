@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any, Callable, NamedTuple
 
+from realtime.exceptions import RealtimeError
+
 if TYPE_CHECKING:
     from realtime.connection import Socket
 
@@ -46,10 +48,8 @@ class Channel:
 
         try:
             await self.socket.ws_connection.send(json.dumps(join_req))
-
         except Exception as e:
-            print(str(e))  # TODO: better error propagation
-            return
+            raise RealtimeError(e)
 
     def on(self, event: str, callback: Callable[[Any], Any]) -> Channel:
         """
