@@ -8,6 +8,9 @@ readme = "README.md"
 homepage = "https://github.com/anand2312/supabase-realtime-client"
 repository = "https://github.com/anand2312/supabase-realtime-client"
 documentation = "https://anand2312.github.io/supabase-realtime-client"
+packages = [
+    {include = "realtime"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
