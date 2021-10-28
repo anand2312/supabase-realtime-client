@@ -1,24 +1,14 @@
-# realtime-py
-Python Client Library to interface with the Phoenix Realtime Server 
+# supabase-realtime-client
 
-## Requirements
-**Python 3 higher**
+Python Client Library to interface with the Phoenix Realtime Server
+This is a fork of the [supabase community realtime client library](https://github.com/supabase-community/realtime-py).
+I am maintaining this fork, to use it under the hood in another project.
 
-## Installation
-```bash
-pip3 install realtime_py==0.1.1a0
-```
+## Quick Start
 
-## Installation from source 
-```bash
-pip3 install -r requirements.txt
-python3 usage.py 
-
-```
-
-## Quick Start 
 ```python
-from realtime_py.connection import Socket
+import asyncio
+from realtime.connection import Socket
 
 def callback1(payload):
     print("Callback 1: ", payload)
@@ -40,14 +30,12 @@ if __name__ == "__main__":
     s.listen()
 ```
 
-
-
 ## Sample usage with Supabase
 
 Here's how you could connect to your realtime endpoint using Supabase endpoint. Correct as of 5th June 2021. Please replace `SUPABASE_ID` and `API_KEY` with your own `SUPABASE_ID` and `API_KEY`. The variables shown below are fake and they will not work if you try to run the snippet.
 
 ```python
-from realtime_py.connection import Socket
+from realtime.connection import Socket
 
 SUPABASE_ID = "dlzlllxhaakqdmaapvji"
 API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MT"
@@ -68,6 +56,3 @@ if __name__ == "__main__":
 ```
 
 Then, go to the Supabase interface and toggle a row in a table. You should see a corresponding payload show up in your console/terminal.
-
-
-
