@@ -8,3 +8,9 @@ class NotConnectedError(Exception):
 
     def __str__(self):
         return f"A WS connection has not been established. Ensure you call Socket.connect() before calling Socket.{self.offending_func_name}()"
+
+
+class ConnectionFailedError(Exception):
+    """
+    Raised when connecting to the Phoenix server fails.
+    """

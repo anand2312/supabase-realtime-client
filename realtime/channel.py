@@ -1,17 +1,15 @@
 from __future__ import annotations
 
-import asyncio
 import json
-from collections import namedtuple
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, Any, Callable, NamedTuple
 
 if TYPE_CHECKING:
     from realtime.connection import Socket
 
-"""
-Callback Listener is a tuple with `event` and `callback`
-"""
-CallbackListener = namedtuple("CallbackListener", "event callback")
+
+class CallbackListener(NamedTuple):
+    event: str
+    callback: Callable[[Any], Any]  # TODO: improve annotation for callback and payload
 
 
 class Channel:
@@ -24,32 +22,27 @@ class Channel:
 
     def __init__(self, socket: Socket, topic: str, params: dict = {}) -> None:
         """
-        :param socket: Socket object
-        :param topic: Topic that it subscribes to on the realtime server
-        :param params:
+        Args:
+            socket: Socket object
+            topic: Topic to subcribe to on the realtime server
+            params:
         """
         self.socket = socket
-        self.topic: str = topic
+        self.topic = topic
         self.params: dict = params
-        self.listeners: List[CallbackListener] = []
+        self.listeners: list[CallbackListener] = []
         self.joined: bool = False
 
-    def join(self) -> Channel:
+    async def join(self) -> None:
         """
-        Wrapper for async def _join() to expose a non-async interface
-        Essentially gets the only event loop and attempt joining a topic
-        :return: Channel
+        Attempt to join Phoenix Realtime server for a certain topic.
         """
-        loop = asyncio.get_event_loop()  # TODO: replace with get_running_loop
-        loop.run_until_complete(self._join())
-        return self
-
-    async def _join(self) -> None:
-        """
-        Coroutine that attempts to join Phoenix Realtime server via a certain topic
-        :return: None
-        """
-        join_req = dict(topic=self.topic, event="phx_join", payload={}, ref=None)
+        join_req = {
+            "topic": self.topic,
+            "event": "phx_join",
+            "payload": {},
+            "ref": None,
+        }
 
         try:
             await self.socket.ws_connection.send(json.dumps(join_req))
@@ -58,11 +51,13 @@ class Channel:
             print(str(e))  # TODO: better error propagation
             return
 
-    def on(self, event: str, callback) -> Channel:
+    def on(self, event: str, callback: Callable[[Any], Any]) -> Channel:
         """
-        :param event: A specific event will have a specific callback
-        :param callback: Callback that takes msg payload as its first argument
-        :return: Channel
+        Args:
+            event: A specific event will have a specific callback
+            callback: Callback that takes msg payload as its first argument
+        Returns:
+            [Channel][realtime.channel.Channel]
         """
 
         cl = CallbackListener(event=event, callback=callback)
@@ -71,8 +66,10 @@ class Channel:
 
     def off(self, event: str) -> None:
         """
-        :param event: Stop responding to a certain event
-        :return: None
+        Stop listening to a particular event.
+
+        Args:
+            event: event to stop responding to
         """
         self.listeners = [
             callback for callback in self.listeners if callback.event != event
