@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://anand2312.github.io/supabase-realtime-client/</loc>
+         <lastmod>2021-10-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://anand2312.github.io/supabase-realtime-client/quickstart/</loc>
+         <lastmod>2021-10-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://anand2312.github.io/supabase-realtime-client/reference/channel/</loc>
+         <lastmod>2021-10-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://anand2312.github.io/supabase-realtime-client/reference/connection/</loc>
+         <lastmod>2021-10-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://anand2312.github.io/supabase-realtime-client/reference/exceptions/</loc>
+         <lastmod>2021-10-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://anand2312.github.io/supabase-realtime-client/reference/message/</loc>
+         <lastmod>2021-10-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+</urlset>
